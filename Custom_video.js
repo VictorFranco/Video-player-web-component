@@ -15,6 +15,9 @@ function Video(videoElm){
     this.volume_btn=this.video_elm.children[1].children[3].children[0];
     this.full_screen_btn=this.video_elm.children[1].children[4];
     this.execute=function(){
+        this.video_elm.addEventListener("keydown",e=>{
+            if(e.keyCode>36&&e.keyCode<41||e.keyCode==32) e.preventDefault();
+        });
         this.full_screen_btn.addEventListener("click",this.full_screen.bind(this));
         this.volume_btn.addEventListener("click",this.mute_unmute.bind(this));
         this.volume_btn.addEventListener("keyup",e=>{
@@ -23,9 +26,6 @@ function Video(videoElm){
         this.full_screen_btn.addEventListener("keyup",e=>{
             if(e.keyCode==13||e.keyCode==32) this.full_screen();
         });
-        this.video_elm.addEventListener("keydown",e=>{
-            if(e.keyCode>36&&e.keyCode<41||e.keyCode==32) e.preventDefault();
-        })
         this.video_tag.addEventListener("loadeddata",()=>{
             this.duration_elm.innerHTML=timer.trasform_seconds(this.video_tag.duration)
             this.line_w=this.line_time.clientWidth;
