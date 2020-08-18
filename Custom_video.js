@@ -23,6 +23,9 @@ function Video(videoElm){
         this.full_screen_btn.addEventListener("keyup",e=>{
             if(e.keyCode==13||e.keyCode==32) this.full_screen();
         });
+        this.video_elm.addEventListener("keydown",e=>{
+            if(e.keyCode>36&&e.keyCode<41||e.keyCode==32) e.preventDefault();
+        })
         this.video_tag.addEventListener("loadeddata",()=>{
             this.duration_elm.innerHTML=timer.trasform_seconds(this.video_tag.duration)
             this.line_w=this.line_time.clientWidth;
@@ -75,7 +78,6 @@ function Video(videoElm){
     };
     this.time_keyboard_navigation=function(e){
         if(e.keyCode==39||e.keyCode==32||e.keyCode==37){
-            e.preventDefault();
             let current_time=this.video_tag.currentTime;
             let duration=this.video_tag.duration;
             if(e.keyCode==39||e.keyCode==32) 
@@ -91,7 +93,6 @@ function Video(videoElm){
     };
     this.volume_keyboard_navigation=function(e){
         if(e.keyCode>36&&e.keyCode<41){
-            e.preventDefault();
             let current_volume=this.video_tag.volume;
             if(e.keyCode==39||e.keyCode==38)
                 if(current_volume+.1>1) this.video_tag.volume=1;
