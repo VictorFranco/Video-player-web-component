@@ -5,24 +5,33 @@ class video_component extends HTMLElement{
         this.attachShadow({mode:"open"});
         this.content=document.importNode(template.content,true);
         this.shadowRoot.appendChild(this.content);
+        this.video=null;
     }
     connectedCallback(){
-        this.shadowRoot.querySelectorAll("video")[0].setAttribute("src",this.getAttribute("data-src"));
-        this.video=new Video(this.shadowRoot.querySelectorAll(".video")[0]);
-        this.video.execute();
-        this.shadowRoot.querySelectorAll("video")[0].addEventListener("error",()=>{
-            for(let [key,values] of Object.entries(this.video))
-                if(typeof(values)=="function") this.video[key]=()=>{};
-            this.video=null;
-        });
+        let video_container=this.shadowRoot.querySelectorAll(".video")[0];
+        let video_tag=this.shadowRoot.querySelectorAll("video")[0];
+        video_tag.setAttribute("src",this.getAttribute("data-src"));
+        this.video=new Video(video_container);
+        this.video.execute();                    
+        video_tag.addEventListener("error",()=>this.video_error(video_container,video_tag));
+    }
+    video_error(video_container,video_tag){
+        console.log(`%cVideo error`,"font-size:20px",`
+networkState: ${video_tag.networkState}
+src: ${this.getAttribute("data-src")}`);
+        this.reset_tag(video_container);
+        console.log(this);
+    }
+    reset_tag(tag){
+        let baseNode=tag.cloneNode(true);
+        tag.parentNode.replaceChild(baseNode,tag);
     }
     attributeChangedCallback(attr, oldValue, newValue) {
-        if(attr=="data-src"){
+        if(attr=="data-src")
             this.shadowRoot.querySelectorAll("video")[0].setAttribute("src",this.getAttribute("data-src"));
-            if(this.video===null){
-                this.video=new Video(this.shadowRoot.querySelectorAll(".video")[0]);
-                this.video.execute();
-            }
+        if(oldValue!=newValue&&this.video!=null){
+            this.video=new Video(this.shadowRoot.querySelectorAll(".video")[0]);
+            this.video.execute();
         }
     }
     static get observedAttributes() {return ["data-src"];}
