@@ -1,4 +1,6 @@
-# Video-player-web-component 
+# Video-player-web-component
+![Javascript](https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white&labelColor=101010)
+
 Web components are a set of technologies that create reusable custom elements and include some functionality such as element encapsulation.
 
 This video component, which was created with vanilla js, can be produced using html or javascript, you can control the video using the keyboard because it was based on this [video player](https://github.com/VictorFranco/Custom-video-player), and also, if there is an error, it shows specific information about it.
@@ -58,3 +60,6 @@ The volume control looks like this
 When the width is lower than 400px looks like this
 
 ![](docs/Responsive.png)
+
+## LICENSE
+[GPLv3.0](LICENSE)
